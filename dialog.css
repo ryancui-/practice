@@ -1,7 +1,12 @@
+:root {
+  --main-color: green;
+  --border-color: #eeeeee;
+}
+
 .dialog {
   width: 300px;
-  border: 1px solid #eeeeee;
-  border-top: 5px solid green;
+  border: 1px solid var(--border-color);
+  border-top: 5px solid var(--main-color);
   border-radius: 3px;
   background-color: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -26,7 +31,7 @@
 }
 
 .dialog > .buttons {
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid var(--border-color);
   display: flex;
   align-items: center;
 }
@@ -44,6 +49,6 @@
 }
 
 .dialog > .buttons > button.confirm {
-  border-left: 1px solid #eeeeee;
-  color: green;
+  border-left: 1px solid var(--border-color);
+  color: var(--main-color);
 }
