@@ -20,45 +20,43 @@ class MyDialog {
     this.onCancel = mergedOptions.onCancel;
     this.onConfirm = mergedOptions.onConfirm;
 
-    // TODO 需要一个自增id序列1
-    this.id = 1
+    this._moving = false;
 
-    this.insertToBody()
+    this.initDom();
     this.bindEvents();
   }
 
-  /**
-   * 添加到 body 中
-   */
-  insertToBody() {
-    this.$dialog = document.createElement('div')
-    this.$dialog.setAttribute('id', this.id)
-    this.$dialog.classList.add('dialog')
-    
-    this.$title = document.createElement('div')
-    this.$title.classList.add('title')
-    this.$title.textContent = this.title
+  initDom() {
+    this.$dialog = document.createElement('div');
+    this.$dialog.classList.add('dialog');
 
-    this.$content = document.createElement('div')
-    this.$content.classList.add('content')
-    this.$content.textContent = this.content
+    this.$title = document.createElement('div');
+    this.$title.classList.add('title');
+    this.$title.textContent = this.title;
 
-    this.$buttons = document.createElement('div')
-    this.$buttons.classList.add('buttons')
+    this.$content = document.createElement('div');
+    this.$content.classList.add('content');
+    this.$content.textContent = this.content;
 
-    this.$cancel = document.createElement('button')
-    this.$cancel.classList.add('cancel')
-    this.$cancel.textContent = '取消'
-    this.$confirm = document.createElement('button')
-    this.$confirm.classList.add('confirm')
-    this.$confirm.textContent = '确定'
+    this.$buttons = document.createElement('div');
+    this.$buttons.classList.add('buttons');
 
-    this.$buttons.appendChild(this.$cancel)
-    this.$buttons.appendChild(this.$confirm)
+    this.$cancel = document.createElement('button');
+    this.$cancel.classList.add('cancel');
+    this.$cancel.textContent = '取消';
+    this.$confirm = document.createElement('button');
+    this.$confirm.classList.add('confirm');
+    this.$confirm.textContent = '确定';
 
-    this.$dialog.appendChild(this.$title)
-    this.$dialog.appendChild(this.$content)
-    this.$dialog.appendChild(this.$buttons)
+    this.$buttons.appendChild(this.$cancel);
+    this.$buttons.appendChild(this.$confirm);
+
+    this.$dialog.appendChild(this.$title);
+    this.$dialog.appendChild(this.$content);
+    this.$dialog.appendChild(this.$buttons);
+
+    this.$dialog.style.top = '10px';
+    this.$dialog.style.left = '10px';
 
     this.$body.appendChild(this.$dialog);
   }
@@ -67,9 +65,6 @@ class MyDialog {
     this.$body.removeChild(this.$dialog);
   }
 
-  /**
-   * 绑定事件
-   */
   bindEvents() {
     this.$cancel.addEventListener('click', () => {
       this.onCancel();
@@ -80,5 +75,28 @@ class MyDialog {
       this.onConfirm();
       this.destroy();
     });
+
+    this.$title.addEventListener('mousedown', this.handleMouseDown.bind(this));
+    this.$body.addEventListener('mousemove', this.handleMouseMove.bind(this));
+    this.$title.addEventListener('mouseup', this.handleMouseUp.bind(this));
+  }
+
+  handleMouseDown(e) {
+    this._moving = true;
+    this.clickPoint = {
+      x: e.offsetX,
+      y: e.offsetY
+    };
+  }
+
+  handleMouseUp() {
+    this._moving = false;
+  }
+
+  handleMouseMove(e) {
+    if (this._moving) {
+      this.$dialog.style.top = `${e.pageY - this.clickPoint.y}px`;
+      this.$dialog.style.left = `${e.pageX - this.clickPoint.x}px`;
+    }
   }
 }
