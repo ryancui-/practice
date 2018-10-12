@@ -1,0 +1,43 @@
+.dialog {
+  width: 300px;
+  border: 1px solid #eeeeee;
+  border-top: 4px solid red;
+  border-radius: 3px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05)
+}
+
+.dialog > .title {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  height: 40px;
+  line-height: 40px;
+}
+
+.dialog > .content {
+  font-size: 14px;
+  padding: 10px;
+}
+
+.dialog > .buttons {
+  border-top: 1px solid #eeeeee;
+  display: flex;
+  align-items: center;
+}
+
+.dialog > .buttons > button {
+  flex: 1;
+  font-size: 14px;
+  font-weight: bold;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  outline: 0;
+  border: 0;
+}
+
+.dialog > .buttons > button.confirm {
+  border-left: 1px solid #eeeeee;
+  color: red;
+}
