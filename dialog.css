@@ -1,10 +1,14 @@
 .dialog {
   width: 300px;
   border: 1px solid #eeeeee;
-  border-top: 4px solid red;
+  border-top: 5px solid green;
   border-radius: 3px;
   background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05)
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
 }
 
 .dialog > .title {
@@ -13,6 +17,7 @@
   font-weight: bold;
   height: 40px;
   line-height: 40px;
+  cursor: move;
 }
 
 .dialog > .content {
@@ -35,9 +40,10 @@
   text-align: center;
   outline: 0;
   border: 0;
+  cursor: pointer;
 }
 
 .dialog > .buttons > button.confirm {
   border-left: 1px solid #eeeeee;
-  color: red;
+  color: green;
 }

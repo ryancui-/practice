@@ -1,18 +1,35 @@
 // This is a dialog implemention
+
+const defaultOptions = {
+  title: '提示',
+  content: '',
+  onCancel: () => {
+  },
+  onConfirm: () => {
+  }
+};
+
 class MyDialog {
-  constructor(title, content) {
-    this.title = title
-    this.content = content
+  constructor(options) {
+    const mergedOptions = Object.assign({}, defaultOptions, options);
+
+    this.$body = document.getElementsByTagName('body')[0];
+
+    this.title = mergedOptions.title;
+    this.content = mergedOptions.content;
+    this.onCancel = mergedOptions.onCancel;
+    this.onConfirm = mergedOptions.onConfirm;
+
     // TODO 需要一个自增id序列1
     this.id = 1
 
     this.insertToBody()
+    this.bindEvents();
   }
 
-  show() {
-    console.log(this.title, this.content)
-  }
-
+  /**
+   * 添加到 body 中
+   */
   insertToBody() {
     this.$dialog = document.createElement('div')
     this.$dialog.setAttribute('id', this.id)
@@ -43,6 +60,25 @@ class MyDialog {
     this.$dialog.appendChild(this.$content)
     this.$dialog.appendChild(this.$buttons)
 
-    document.getElementsByTagName('body')[0].appendChild(this.$dialog)
+    this.$body.appendChild(this.$dialog);
+  }
+
+  destroy() {
+    this.$body.removeChild(this.$dialog);
+  }
+
+  /**
+   * 绑定事件
+   */
+  bindEvents() {
+    this.$cancel.addEventListener('click', () => {
+      this.onCancel();
+      this.destroy();
+    });
+
+    this.$confirm.addEventListener('click', () => {
+      this.onConfirm();
+      this.destroy();
+    });
   }
 }

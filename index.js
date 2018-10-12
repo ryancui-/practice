@@ -1,5 +1,13 @@
-console.log('index start here')
-
-const dialog = new MyDialog('Title', 'Hello, world.')
-
-dialog.show()
+function openMyDialog() {
+  console.log('open my-dialog');
+  const dialog = new MyDialog({
+    title: 'Title',
+    content: 'Hello, World',
+    onCancel() {
+      console.log('cancel');
+    },
+    onConfirm() {
+      console.log('confirm');
+    }
+  });
+}
