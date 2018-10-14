@@ -100,3 +100,5 @@ class MyDialog {
     }
   }
 }
+
+module.exports = MyDialog;
