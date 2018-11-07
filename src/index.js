@@ -1,7 +1,7 @@
 import MyDialog from './my-dialog/dialog';
 import './my-dialog/dialog.css';
 
-import './my-banner/banner';
+import MyBanner from './my-banner/banner';
 import './my-banner/banner.css';
 
 function openMyDialog() {
@@ -19,3 +19,5 @@ function openMyDialog() {
 }
 
 document.getElementById('dialogBtn').addEventListener('click', openMyDialog);
+
+const myBanner = new MyBanner(document.getElementById('banner'));
