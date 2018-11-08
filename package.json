@@ -1,12 +1,14 @@
 {
-  "name": "my-dialog",
+  "name": "projects",
   "version": "1.0.0",
-  "description": "部分面试题或实操项目的练习。",
+  "description": "Projects by imtouch",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cross-env NODE_ENV=production webpack",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server"
+    "build": "cross-env NODE_ENV=production node build/build.js",
+    "dev": "cross-env NODE_ENV=development node build/serve.js",
+    "dev:index": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.index.js",
+    "dev:drama": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.drama.js"
   },
   "repository": {
     "type": "git",
@@ -22,12 +24,16 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
+    "chalk": "^2.4.1",
     "clean-webpack-plugin": "^0.1.19",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.1",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.4",
+    "ora": "^3.0.0",
+    "rimraf": "^2.6.2",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
     "vue-loader": "^15.4.2",
