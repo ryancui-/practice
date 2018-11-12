@@ -1,0 +1,23 @@
+h1 {
+  margin: 40px 10px 10px 10px;
+  color: #000000;
+}
+
+.projects {
+  display: flex;
+}
+
+.project {
+  margin: 10px;
+  height: 200px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  background-color: #defcfc;
+  border: 3px solid #6dc8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+}

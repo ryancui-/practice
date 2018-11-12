@@ -5,6 +5,7 @@ const ora = require('ora');
 const chalk = require('chalk');
 const drama_config = require('./webpack.drama');
 const index_config = require('./webpack.index');
+const labs_config = require('./webpack.labs');
 
 const spinner = ora('Building for production...');
 spinner.start();
@@ -12,7 +13,7 @@ spinner.start();
 rm(path.resolve(__dirname, '../dist'), err => {
   if (err) throw err;
 
-  const compiler = webpack([index_config, drama_config]);
+  const compiler = webpack([index_config, labs_config, drama_config]);
   const fn = (err, stats) => {
     spinner.stop();
     if (err) throw err;

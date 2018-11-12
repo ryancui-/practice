@@ -8,6 +8,7 @@
     "build": "cross-env NODE_ENV=production node build/build.js",
     "dev": "cross-env NODE_ENV=development node build/serve.js",
     "dev:index": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.index.js",
+    "dev:labs": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.labs.js",
     "dev:drama": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.drama.js",
     "deploy": "sh scripts/deploy.sh"
   },

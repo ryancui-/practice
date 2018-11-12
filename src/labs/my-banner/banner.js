@@ -57,7 +57,7 @@ class MyBanner {
           this.banners[this.banners.length - 1].x = (this.banners.length - 1) * 100;
         }
       }, 400);
-    }, 100);
+    }, 20);
   }
 
   scrollRight() {
@@ -79,7 +79,7 @@ class MyBanner {
           this.banners[0].x = -(this.banners.length - 1) * 100;
         }
       }, 400);
-    }, 100);
+    }, 20);
   }
 }
 
