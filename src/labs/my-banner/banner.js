@@ -1,85 +1,132 @@
+const default_options = {
+  play: false
+};
+
 class MyBanner {
-  constructor(element) {
+  constructor(element, options) {
     this.scroller = element.querySelector('.banner-scroller');
-    this.banners = [];
+    this.options = Object.assign({}, default_options, options);
 
-    element.querySelectorAll('.banner-item').forEach((banner, index) => {
-      const obj = { banner };
+    // 记录一下当前展示图片数组下标
+    this.banners = element.querySelectorAll('.banner-item');
+    this.currentShow = 0;
 
-      Object.defineProperty(obj, 'x', {
-        get() {
-          return obj._x;
-        },
-        set(val) {
-          obj._x = val;
-          obj.banner.style.transform = `translateX(${val}%)`;
-        }
-      });
+    // 当前状态：0-静止；1-左滑；2-右滑
+    this.status = 0;
+    this.animationEndCb = () => {
+    };
 
-      obj.x = index * 100;
-      this.banners.push(obj);
+    this.banners.forEach((b, i) => {
+      if (i !== 0) {
+        this._setRight(i);
+      }
     });
 
     this.bindEvents();
   }
 
   bindEvents() {
-    this.scroller.addEventListener('touchstart', e => {
-      this.touch = e.touches[0];
-    });
+    let startEvent;
+    let endEvent;
 
-    this.scroller.addEventListener('touchend', e => {
-      const changed = e.changedTouches[0];
-      if (changed.pageX - this.touch.pageX > 50) {
-        this.scrollRight();
-      } else if (this.touch.pageX - changed.pageX > 50) {
-        this.scrollLeft();
+    if ('ontouchstart' in document.documentElement) {
+      this.scroller.addEventListener('touchstart', e => {
+        this.touch = e.touches[0];
+      });
+
+      this.scroller.addEventListener('touchend', e => {
+        const changed = e.changedTouches[0];
+        if (changed.pageX - this.touch.pageX > 50) {
+          this.scrollRight();
+        } else if (this.touch.pageX - changed.pageX > 50) {
+          this.scrollLeft();
+        }
+      });
+    } else {
+      this.scroller.addEventListener('mousedown', e => {
+        this.touch = {
+          offsetX: e.offsetX,
+        };
+      });
+
+      this.scroller.addEventListener('mouseup', e => {
+        if (e.offsetX - this.touch.offsetX > 50) {
+          this.scrollRight();
+        } else if (this.touch.offsetX - e.offsetX > 50) {
+          this.scrollLeft();
+        }
+      });
+    }
+
+    this.scroller.addEventListener('animationend', e => {
+      switch (this.status) {
+        case 0:
+          return;
+        case 1:
+        case 2:
+          this.status = 0;
+          this.animationEndCb();
       }
     });
+
+    // 轮播
+    if (this.options.play && typeof this.options.play === 'number') {
+      setInterval(() => {
+        this.scrollLeft();
+      }, this.options.play + 300);
+    }
   }
 
   scrollLeft() {
-    let flag = this.banners[this.banners.length - 1].x === 0;
-    if (flag) {
-      this.banners.slice(0, this.banners.length - 1).forEach((banner, index) => {
-        banner.x = (index + 1) * 100;
-      });
+    let nextShow = this.currentShow + 1;
+    if (nextShow === this.banners.length) {
+      nextShow = 0;
     }
 
-    setTimeout(() => {
-      this.scroller.classList.add('banner-scroller-transition');
-      this.banners.forEach(banner => {
-        banner.x -= 100;
-      });
-      setTimeout(() => {
-        this.scroller.classList.remove('banner-scroller-transition');
-        if (flag) {
-          this.banners[this.banners.length - 1].x = (this.banners.length - 1) * 100;
-        }
-      }, 400);
-    }, 20);
+    this.status = 1;
+    this.banners[this.currentShow].classList.add('center-to-left');
+    this.banners[nextShow].classList.add('right-to-center');
+    this.animationEndCb = () => {
+      this._setLeft(this.currentShow);
+      this._setCenter(nextShow);
+
+      this.banners[this.currentShow].classList.remove('center-to-left');
+      this.banners[nextShow].classList.remove('right-to-center');
+
+      this.currentShow = nextShow;
+    };
   }
 
   scrollRight() {
-    let flag = this.banners[0].x === 0;
-    if (flag) {
-      this.banners.slice(1).forEach((banner, index) => {
-        banner.x = (index + 1 - this.banners.length) * 100;
-      });
+    let nextShow = this.currentShow - 1;
+    if (nextShow < 0) {
+      nextShow = this.banners.length - 1;
     }
 
-    setTimeout(() => {
-      this.scroller.classList.add('banner-scroller-transition');
-      this.banners.forEach(banner => {
-        banner.x += 100;
-      });
-      setTimeout(() => {
-        this.scroller.classList.remove('banner-scroller-transition');
-        if (flag) {
-          this.banners[0].x = -(this.banners.length - 1) * 100;
-        }
-      }, 400);
-    }, 20);
+    this.status = 2;
+    this.banners[this.currentShow].classList.add('center-to-right');
+    this.banners[nextShow].classList.add('left-to-center');
+    this.animationEndCb = () => {
+      this._setRight(this.currentShow);
+      this._setCenter(nextShow);
+
+      this.banners[this.currentShow].classList.remove('center-to-right');
+      this.banners[nextShow].classList.remove('left-to-center');
+
+      this.currentShow = nextShow;
+    };
+  }
+
+  _setLeft(index) {
+    this.banners[index].style.transform = 'translateX(-100%)';
+  }
+
+  _setCenter(index) {
+    this.banners[index].style.transform = 'translateX(0)';
+  }
+
+  _setRight(index) {
+    this.banners[index].style.transform = 'translateX(100%)';
   }
 }
 

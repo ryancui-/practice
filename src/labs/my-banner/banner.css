@@ -21,3 +21,55 @@
 .banner-scroller-transition > .banner-item {
   transition: transform 0.3s;
 }
+
+@keyframes center-to-left-f {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes center-to-right-f {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes left-to-center-f {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes right-to-center-f {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.center-to-left {
+  animation: center-to-left-f 0.3s both;
+}
+
+.center-to-right {
+  animation: center-to-right-f 0.3s both;
+}
+
+.left-to-center {
+  animation: left-to-center-f 0.3s both;
+}
+
+.right-to-center {
+  animation: right-to-center-f 0.3s both;
+}

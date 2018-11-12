@@ -20,4 +20,6 @@ function openMyDialog() {
 
 document.getElementById('dialogBtn').addEventListener('click', openMyDialog);
 
-const myBanner = new MyBanner(document.getElementById('banner'));
+const myBanner = new MyBanner(document.getElementById('banner'), {
+  play: 2500
+});
